@@ -80,7 +80,7 @@ def cleanup_old_versions(src, keep_last_versions, config_file='config.yaml'):
 
 def deploy(
         src, use_requirements=False, local_package=None,
-        config_file='config.yaml',
+        config_file='config.yaml', no_update_config=False,
 ):
     """Deploys a new function to AWS Lambda.
 
@@ -106,7 +106,7 @@ def deploy(
     )
 
     if function_exists(cfg, cfg.get('function_name')):
-        update_function(cfg, path_to_zip_file)
+        update_function(cfg, path_to_zip_file,no_update_config)
     else:
         create_function(cfg, path_to_zip_file)
 
@@ -531,7 +531,7 @@ def create_function(cfg, path_to_zip_file, *use_s3, **s3_file):
     client.create_function(**kwargs)
 
 
-def update_function(cfg, path_to_zip_file, *use_s3, **s3_file):
+def update_function(cfg, path_to_zip_file,no_update_config=False, *use_s3, **s3_file):
     """Updates the code of an existing Lambda function"""
 
     print('Updating your Lambda function')
@@ -595,8 +595,8 @@ def update_function(cfg, path_to_zip_file, *use_s3, **s3_file):
                 },
             },
         )
-
-    client.update_function_configuration(**kwargs)
+    if not no_update_config:
+        client.update_function_configuration(**kwargs)
 
 
 def upload_s3(cfg, path_to_zip_file, *use_s3):

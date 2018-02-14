@@ -99,13 +99,19 @@ def invoke(event_file, config_file, verbose):
     help='Install all packages defined in requirements.txt',
 )
 @click.option(
+    '--no-update-config',
+    default=False,
+    is_flag=True,
+    help='Do not update lambda configuration',
+)
+@click.option(
     '--local-package',
     default=None,
     type=click.Path(),
     help='Install local package as well.',
     multiple=True,
 )
-def deploy(use_requirements, local_package, config_file):
+def deploy(use_requirements, local_package, config_file,no_update_config):
     aws_lambda.deploy(
         CURRENT_DIR,
         config_file=config_file,
