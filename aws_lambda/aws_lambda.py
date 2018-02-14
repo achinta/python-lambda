@@ -596,7 +596,10 @@ def update_function(cfg, path_to_zip_file,no_update_config=False, *use_s3, **s3_
             },
         )
     if not no_update_config:
+        print('Updating configuration')
         client.update_function_configuration(**kwargs)
+    else:
+        print('NOT updating configuration')
 
 
 def upload_s3(cfg, path_to_zip_file, *use_s3):
