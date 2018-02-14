@@ -117,6 +117,7 @@ def deploy(use_requirements, local_package, config_file,no_update_config):
         config_file=config_file,
         use_requirements=use_requirements,
         local_package=local_package,
+        no_update_config=no_update_config
     )
 
 
